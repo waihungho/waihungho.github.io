@@ -6,12 +6,13 @@ angular.module('ShoppingListCheckOff', [])
 .controller('ToBuyShoppingController', ToBuyShoppingController)
 .controller('AlreadyBoughtShoppingController',AlreadyBoughtShoppingController)
 .service("ShoppingListCheckOffService", ShoppingListCheckOffService)
-//.config(Config);
+.config(Config);
 // .provider('ShoppingListCheckOffService', ShoppingListCheckOffServiceProvider)
 
-// Config.$inject = ['ShoppingListServiceProvider'];
-// function Config() {
-// }
+Config.$inject = ['ShoppingListCheckOffService'];
+function Config(ShoppingListCheckOffService) {
+  ShoppingListCheckOffService.setItems(ShoppingListCheckOffService.getDefaultToBuyItems());
+}
 
 
 ShoppingController.$inject = ['$scope','ShoppingListCheckOffService'];
@@ -73,7 +74,10 @@ function ShoppingListCheckOffService() {
                             { name: "iPhone7+", quantity: 1 },
                             { name: "Lenovo", quantity: 5 }                          ];
 
-  var toBuyItems = defaultToBuyItems;
+  var toBuyItems = [];
+  service.setItems = function (items){
+    toBuyItems=items;
+  };
 
   service.addBuyItem = function (itemName, quantity) {
     // if ((maxItems === undefined) ||

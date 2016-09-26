@@ -23,7 +23,7 @@
             <button ng-click="list.removeItem($index);">Buy</button>
           </li>
         </ol>
-        <div ng-if='masterList.toBuyMessage' class="error">{{masterList.toBuyMessage}}</div>
+        <div ng-if='list.items.length==0' class="error">All Buy</div>
       </div>
 
       <div ng-controller='AlreadyBoughtShoppingController as list'>
@@ -37,7 +37,7 @@
             <button ng-click="list.removeItem($index);">Don't wanna buy now.</button>
           </li>
         </ol>
-        <div ng-if='masterList.boughtMessage' class="error">{{masterList.boughtMessage}}</div>
+        <div ng-if='list.items.length==0' class="error">No bought</div>
       </div>
 
     </div>
