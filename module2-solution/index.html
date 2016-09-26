@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app='ShoppingListCheckOff'>
+  <head>
+    <meta charset="utf-8">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>ShoppingListCheckOff</title>
+  </head>
+  <body>
+    <h1>ShoppingListCheckOff</h1>
+
+    <div ng-controller='ShoppingController as masterList'>
+
+      <div ng-controller='ToBuyShoppingController as list'>
+        <h3>To-Buy Shopping List</h3>
+        <!-- <input type="text" ng-model="list.itemName" placeholder="item name">
+        <input type="text" ng-model="list.itemQuantity" placeholder="quantity">
+        <button ng-click="list.addItem();">Add Item</button> -->
+        <ol>
+          <li ng-repeat="item in list.items">
+            Buy {{ item.quantity }} {{ item.name }}
+            <button ng-click="list.removeItem($index);">Buy</button>
+          </li>
+        </ol>
+        <div ng-if='masterList.toBuyMessage' class="error">{{masterList.toBuyMessage}}</div>
+      </div>
+
+      <div ng-controller='AlreadyBoughtShoppingController as list'>
+        <h3>Bought Shopping List</h3>
+        <!--<input type="text" ng-model="list.itemName" placeholder="item name">
+        <input type="text" ng-model="list.itemQuantity" placeholder="quantity">
+        <button ng-click="list.addItem();">Add Item</button>-->
+        <ol>
+          <li ng-repeat="item in list.items">
+            Bought {{ item.quantity }} {{ item.name }}
+            <button ng-click="list.removeItem($index);">Don't wanna buy now.</button>
+          </li>
+        </ol>
+        <div ng-if='masterList.boughtMessage' class="error">{{masterList.boughtMessage}}</div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
