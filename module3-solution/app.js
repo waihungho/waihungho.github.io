@@ -4,22 +4,47 @@
 angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService', MenuSearchService)
-.constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
+.constant('ApiBasePath', "https://davids-restaurant.herokuapp.com")
+.directive('foundItems', FoundItemsDirective);
+
+function FoundItemsDirective() {
+  var ddo = {
+    templateUrl: 'foundItems.html',
+    scope: {
+      found: '<',
+      onRemove: '&'
+    },
+    controller: NarrowItDownController,
+    controllerAs: 'list',
+    bindToController: true,
+  };
+  return ddo;
+}
+
 
 NarrowItDownController.$inject = ['$scope','MenuSearchService'];
 function NarrowItDownController($scope, MenuSearchService) {
-  var ctrl = this;
-  ctrl.getMenu = function (shortName) {
+  var list = this;
+  list.title = 'Victor';
+
+  list.getMenu = function () {
     var promise = MenuSearchService.getMatchedMenuItems();
     promise.then(function (response) {
-      ctrl.found = response.data.menu_items.filter(function (el) {
+      list.found = response.data.menu_items.filter(function (el) {
         return  ( el.description.indexOf($scope.searchTerm) !== -1 );
       });
+      //console.log(list.found);
     })
     .catch(function (error) {
       console.log("Something went terribly wrong.");
     });
   };
+
+  list.removeItem = function (itemIndex) {
+    console.log('Remove',itemIndex);
+    list.found.splice(itemIndex, 1);
+  };
+
 }
 
 
@@ -31,7 +56,6 @@ function MenuSearchService($http, ApiBasePath) {
     var response = $http({
       method: "GET",
       url: (ApiBasePath + "/menu_items.json")
-      // url: (ApiBasePath + "/categories.json")
     });
     return response;
   };

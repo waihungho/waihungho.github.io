@@ -5,14 +5,15 @@ angular.module('ShoppingListCheckOff', [])
 .controller('ShoppingController', ShoppingController)
 .controller('ToBuyShoppingController', ToBuyShoppingController)
 .controller('AlreadyBoughtShoppingController',AlreadyBoughtShoppingController)
-.service("ShoppingListCheckOffService", ShoppingListCheckOffService)
-.config(Config);
+.service("ShoppingListCheckOffService", ShoppingListCheckOffService);
+//.factory('ShoppingListCheckOffFactory', ShoppingListCheckOffFactory);
+// .config(Config);
 // .provider('ShoppingListCheckOffService', ShoppingListCheckOffServiceProvider)
 
-Config.$inject = ['ShoppingListCheckOffService'];
-function Config(ShoppingListCheckOffService) {
-  ShoppingListCheckOffService.setItems(ShoppingListCheckOffService.getDefaultToBuyItems());
-}
+// Config.$inject = ['ShoppingListCheckOffService'];
+// function Config(ShoppingListCheckOffService) {
+//   ShoppingListCheckOffService.setItems(ShoppingListCheckOffService.getDefaultToBuyItems());
+// }
 
 
 ShoppingController.$inject = ['$scope','ShoppingListCheckOffService'];
@@ -40,6 +41,8 @@ function ShoppingController($scope, ShoppingListCheckOffService) {
 ToBuyShoppingController.$inject = ['$scope','ShoppingListCheckOffService'];
 function ToBuyShoppingController($scope, ShoppingListCheckOffService) {
   var list = this;
+  //var thisService = ShoppingListCheckOffFactory();
+  //console.log(thisService);
   list.items = ShoppingListCheckOffService.getDefaultToBuyItems();
   list.removeItem = function (itemIndex) {
     ShoppingListCheckOffService.removeBuyItem(itemIndex);
@@ -74,11 +77,13 @@ function ShoppingListCheckOffService() {
                             { name: "iPhone7+", quantity: 1 },
                             { name: "Lenovo", quantity: 5 }                          ];
 
-  var toBuyItems = [];
-  service.setItems = function (items){
-    toBuyItems=items;
-  };
-
+  var toBuyItems = defaultToBuyItems;
+//  service.setItems = function (items){
+//    toBuyItems=items;
+//  };
+  service.getItService = function (){
+    return service;
+  }
   service.addBuyItem = function (itemName, quantity) {
     // if ((maxItems === undefined) ||
     //     (maxItems !== undefined) && (items.length < maxItems)) {
@@ -131,6 +136,15 @@ function ShoppingListCheckOffService() {
   };
 
 }
+
+// function ShoppingListCheckOffFactory() {
+//   var factory = function () {
+//     return ShoppingListCheckOffService;
+//   };
+//
+//   return factory;
+// }
+
 
 
 // function ShoppingListCheckOffServiceProvider() {
