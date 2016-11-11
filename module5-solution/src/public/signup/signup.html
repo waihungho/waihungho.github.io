@@ -1,0 +1,75 @@
+
+
+ Everything in the form (except th short_name) must be validate through AngularJS
+ validation we learned in this module. When the user clicks the Submit button
+ (after all other fields are validate), try to retrieve the menu item the user specified as
+ their favorite through the following REST endpoint
+ https://YOUR-CHOSEN-SUBDOMAIN.herokuapp.com/menu_items/SHORT-NAME.json, where YOUR-CHOSEN-SUBDOMAIN is the subdomain discussed in Lecture50 (Restaurant Server Setup), and the SHORT-NAME is the name the user provided. If the server returns an error, you will know that the item name specified is not valid. If that's the case, display a message next to the favorite choice saying No such menu number exists. (See bonus for more)
+
+If everything is valid, save the user's preference somewhere in your client app such
+that you can retrieve it in another view/component/controller/etc. (Hint: think service).
+Once saved, display a message below the form saying Your information has been saved.
+
+<body ng-controller="SignupController as reg">
+<div class="signup-input">
+<fieldset>
+      <legend>Signup</legend>
+      <form name='regForm' novalidate>
+        First Name <input type="text" name="firstname" placeholder="First Name"
+                  ng-model="reg.user.firstname"
+                  required>
+        <span
+          ng-if="(regForm.firstname.$error.required) && regForm.firstname.$touched">
+          First Name must be input
+        </span>
+        <br>
+        Last Name <input type="text" name="lastname" placeholder="Last Name"
+                  ng-model="reg.user.lastname"
+                  required>
+        <span
+          ng-if="(regForm.lastname.$error.required) && regForm.lastname.$touched">
+          Last Name must be input
+        </span>
+
+        <br>
+        Email <input type="email" name="email" placeholder="Email"
+                    ng-model="reg.user.email"
+                    required>
+        <span ng-if="regForm.email.$invalid && regForm.email.$touched">
+          Must be a valid email address: handle@domain format
+        </span>
+
+        <br>
+        Phone <input type="text" name="phone" placeholder="Phone ###-###-####"
+                      ng-model="reg.user.phone"
+                      pattern="(\d{3})-(\d{3})-(\d{4})">
+        <span ng-if="regForm.phone.$invalid && regForm.phone.$touched">
+          Phone must be in the format ###-###-####.
+        </span>
+
+        <br>
+        Favorite dish <input type="text" name="favorite" placeholder="Favorite dish"
+                  ng-model="reg.user.favorite"
+                  required>
+        <span ng-if="regForm.favorite.$invalid && regForm.favorite.$touched">
+          Please input your favorite dish.
+        </span>
+
+        <br>
+        <button
+          ng-disabled="regForm.$invalid"
+          ng-click="reg.submit()">Submit</button>
+
+        <div style="margin-top: 10px;">
+          Form valid? {{ regForm.$valid }}
+        </div>
+
+        <span ng-if="reg.completed">
+          Your information has been saved
+          {{reg.menu2}}
+        </span>
+
+      </form>
+</fieldset>
+</div>
+</body>
